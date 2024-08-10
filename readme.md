@@ -7,7 +7,7 @@ Características:
 
 Inicio: Permite ver rapidamente la cantidad de tareas y siniestros que se encuentra pendientes y aun requieren de un seguimiento.
 
-- Gestión de Empleados: Ver, cargar y buscar empleados.
+-Gestión de Empleados: Ver, cargar y buscar empleados.
 
 -Gestión de Asegurados: Ver, cargar y buscar asegurados.
 
