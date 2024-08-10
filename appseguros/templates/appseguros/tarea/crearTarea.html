@@ -1,0 +1,19 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+
+{% block titulo %} Crear Tarea {% endblock  %} 
+
+
+{% block contenidoQueCambia %}
+<div class="card m-3 p-3 col-md-4">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <button type="submit" class="btn btn-dark mt-4">Enviar</button>
+    </form>
+</div>
+{% endblock  %}

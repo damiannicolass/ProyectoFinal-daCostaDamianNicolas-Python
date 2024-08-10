@@ -1,0 +1,25 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Crear Inspecciones {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container mt-4">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1 class="mb-0">Crear Inspección</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-dark btn-sm p-2">Crear Inspección</button>
+                <a href="{% url 'lista_inspecciones' %}" class="btn btn-secondary ms-2">Volver</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

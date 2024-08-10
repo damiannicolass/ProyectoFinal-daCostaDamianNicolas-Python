@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Fotos</title>
+    <link rel="stylesheet" href="{% static 'inspecciones/css/styles4.css' %}">
+</head>
+<body>
+    <h1>Subir Fotos</h1>
+    <form id="uploadForm" action="{% url 'subir_fotos' inspeccion.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Campos de entrada para fotos con captura obligatoria -->
+        <label for="foto_frente">{{ form.foto_frente.label }}</label>
+        <input type="file" name="foto_frente" accept="image/*" capture="camera" required>
+        
+        <label for="foto_trasera">{{ form.foto_trasera.label }}</label>
+        <input type="file" name="foto_trasera" accept="image/*" capture="camera" required>
+        
+        <label for="foto_lateral_derecho">{{ form.foto_lateral_derecho.label }}</label>
+        <input type="file" name="foto_lateral_derecho" accept="image/*" capture="camera" required>
+        
+        <label for="foto_lateral_izquierdo">{{ form.foto_lateral_izquierdo.label }}</label>
+        <input type="file" name="foto_lateral_izquierdo" accept="image/*" capture="camera" required>
+        
+        <label for="dni_frente">{{ form.dni_frente.label }}</label>
+        <input type="file" name="dni_frente" accept="image/*" capture="camera" required>
+        
+        <label for="dni_dorso">{{ form.dni_dorso.label }}</label>
+        <input type="file" name="dni_dorso" accept="image/*" capture="camera" required>
+        
+        <label for="cedula_verde_frente">{{ form.cedula_verde_frente.label }}</label>
+        <input type="file" name="cedula_verde_frente" accept="image/*" capture="camera" required>
+        
+        <label for="cedula_verde_dorso">{{ form.cedula_verde_dorso.label }}</label>
+        <input type="file" name="cedula_verde_dorso" accept="image/*" capture="camera" required>
+        
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>

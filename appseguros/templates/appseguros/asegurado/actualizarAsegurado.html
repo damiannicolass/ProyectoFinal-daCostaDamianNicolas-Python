@@ -1,0 +1,20 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+
+{% block titulo %} Actualizar Asegurado {% endblock  %} 
+
+
+{% block contenidoQueCambia %}
+<div class="container form_actualizar_asegurado">
+    <h2>Actualizar datos del asegurado:</h2>
+    <form action="" method="POST" >
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+{% endblock  %}

@@ -1,0 +1,94 @@
+{% extends 'appseguros/base.html' %}
+
+{% block titulo %} Listar Pólizas {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container m">
+
+    <div class="header_polizas">
+    <h2>Listar Pólizas</h2>
+    <a href="{% url 'crearPoliza' %}" class="btn btn-dark">Crear Póliza</a>
+    <form method="GET" action="{% url 'listarPolizas' %}" >
+        <div class="input-group my-3">
+            <input type="text" name="buscar" id="search-field" class="form-control" aria-label="Buscar poliza" aria-describedby="inputGroup-sizing-default" placeholder="Buscar poliza" value="{{ request.GET.buscar }}">
+            <button class="btn btn-dark" type="submit">Buscar</button>
+            {% if request.GET.buscar %}
+                <a href="{% url 'listarPolizas' %}" class="btn btn-secondary ms-2">Volver</a>
+            {% endif %}
+        </div>
+    </form>
+    </div>
+    <div class="border">
+        {% if object_list %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Asegurado</th>
+                        <th>Compañia</th>
+                        <th>Número</th>
+                        <th>Tipo</th>
+                        <th>Inicio</th>
+                        <th>Finalizacion</th>
+                        <th>Acciones</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for poliza in object_list %}
+                        <tr>
+                            <td>{{ poliza.asegurado }}</td>
+                            <td>{{ poliza.compania }}</td>
+                            <td>{{ poliza.numero_poliza }}</td>
+                            <td>{{ poliza.get_tipo_seguro_display }}</td>
+                            <td>{{ poliza.fecha_inicio }}</td>
+                            <td>{{ poliza.fecha_finalizacion }}</td>
+                            <td>
+                                <a href="{% url 'detallePoliza' poliza.pk %}" class="btn btn-dark btn-sm">Ver</a>
+                                <a href="{% url 'actualizarPoliza' poliza.pk %}" class="btn btn-dark btn-sm">Actualizar</a>
+                                {% if request.user.is_superuser %}
+                                    <a href="{% url 'eliminarPoliza' poliza.pk %}" class="btn btn-danger btn-sm">X<a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="POST" action="{% url 'actualizar_estado_poliza' poliza.pk %}">
+                                    {% csrf_token %}
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ poliza.pk }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {% if poliza.estado_poliza == 'vigente' %}
+                                                Vigente
+                                            {% elif poliza.estado_poliza == 'anulada' %}
+                                                Anulada
+                                            {% else %}
+                                                Vencida
+                                            {% endif %}
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ poliza.pk }}">
+                                            {% if poliza.estado_poliza != 'vigente' %}
+                                            <li>
+                                                <button class="dropdown-item" type="submit" name="estado" value="vigente">Vigente</button>
+                                            </li>
+                                            {% endif %}
+                                            {% if poliza.estado_poliza != 'anulada' %}
+                                            <li>
+                                                <button class="dropdown-item" type="submit" name="estado" value="anulada">Anulada</button>
+                                            </li>
+                                            {% endif %}
+                                            {% if poliza.estado_poliza != 'vencida' %}
+                                            <li>
+                                                <button class="dropdown-item" type="submit" name="estado" value="vencida">Vencida</button>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay pólizas registradas.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

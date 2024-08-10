@@ -1,0 +1,83 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Listar Tareas {% endblock %}
+
+{% block contenidoQueCambia %}
+<!--Encabezado-->
+<div class="container">
+    <div class="container tareas_pendientes m-3">
+        <h2>Tareas Pendientes: </h2>
+        <a href="{% url 'crearTarea' %}" class="btn btn-dark">Crear tarea</a>
+        <form method="GET" action="{% url 'listarTareas' %}" >
+            <div class="input-group">
+                <input type="text" name="buscar" id="search-field" class="form-control" aria-label="Buscar tareas" aria-describedby="inputGroup-sizing-default" placeholder="Buscar tareas" value="{{ request.GET.buscar }}">
+                <button class="btn btn-secondary" type="submit">Buscar</button>
+                {% if request.GET.buscar %}
+                    <a href="{% url 'listarTareas' %}" class="btn btn-secondary ms-2">Volver</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+<!--Tarjetas de tareas pendientes-->
+<div class="m-2">
+<div class="row pt-3">
+    {% if tareas %}
+        {% for tarea in tareas %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-lg">
+                    <div class="card-body p-4">
+
+                        <!--Puede borrar una tarea solo usuarios autorizados-->
+                        {% if request.user.is_superuser %}
+                            
+                        <div class="text-end">
+                            <a href="{% url 'eliminarTarea' tarea.pk %}" class="btn btn-close close"></a>                            
+                        </div>
+                        {% endif %}
+                        <h5 class="card-title">{{ tarea.titulo }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ tarea.subtitulo }}</h6>
+                        <a href="{% url 'detalleTarea' tarea.pk %}" class="btn btn-dark btn-sm mt-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                        </svg> Ver</a>
+                        <hr>
+                        <p class="card-text m-1"><small class="text-muted">{{ tarea.created_at|date:"d M Y H:i" }}</small></p>
+                        <!-- Formulario para cambiar el estado de la tarea -->
+                        <form action="{% url 'actualizar_estado_tarea' tarea.pk %}" method="POST" style="display: inline;">
+                            {% csrf_token %}
+                            <p>Estado: </p>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ tarea.pk }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {% if tarea.estado == 'activa' %}
+                                        Activa
+                                    {% else %}
+                                        Terminada
+                                    {% endif %}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ tarea.pk }}">
+                                    {% if tarea.estado != 'activa' %}
+                                    <li>
+                                        <button class="dropdown-item" type="submit" name="estado" value="activa">Activa</button>
+                                    </li>
+                                    {% endif %}
+                                    {% if tarea.estado != 'terminada' %}
+                                    <li>
+                                        <button class="dropdown-item" type="submit" name="estado" value="terminada">Terminada</button>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No hay tareas que coincidan con tu búsqueda.</p>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

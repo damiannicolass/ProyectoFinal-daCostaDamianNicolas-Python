@@ -1,0 +1,19 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+
+{% block titulo %} Eliminar Tarea {% endblock  %} 
+
+
+{% block contenidoQueCambia %}
+<div class="card m-3 p-3">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <h4>Estas seguro de eliminar la tarea:  {{tarea.titulo}}? </h4>
+        
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'listarTareas' %}" class="btn btn-secondary">Volver</a>
+    </form>
+</div> 
+{% endblock  %}

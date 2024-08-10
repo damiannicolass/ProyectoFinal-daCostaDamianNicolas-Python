@@ -1,0 +1,43 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Listar Empleados {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container mt-4">
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="me-auto">Lista de Empleados</h1>
+        <a href="{% url 'crearEmpleado' %}" class="btn btn-dark btn-lg">Crear Nuevo</a>
+    </div>
+    <div class="row">
+        {% if empleados %}
+            {% for empleado in empleados %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="d-flex justify-content-center align-items-center mt-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M13.468 12.37C12.758 11.226 11.113 10 8 10s-4.758 1.226-5.468 2.37A6.961 6.961 0 0 1 1 8a6.961 6.961 0 0 1 1.532-4.37C3.242 4.774 4.887 6 8 6s4.758-1.226 5.468-2.37A6.961 6.961 0 0 1 15 8a6.961 6.961 0 0 1-1.532 4.37zM8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1z"/>
+                                <path d="M8 4a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+                            </svg>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-center">{{ empleado.nombre }} {{ empleado.apellido }}</h5>
+                            <div class="mt-auto">
+                                <a href="{% url 'actualizarEmpleado' empleado.pk %}" class="btn btn-dark btn-sm w-100 mb-2">Actualizar</a>
+                                {% if request.user.is_superuser %}
+                                    <a href="{% url 'eliminarEmpleado' empleado.pk %}" class="btn btn-danger btn-sm w-100">Eliminar</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <p class="text-center">No hay empleados disponibles.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Crear Vehículo {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container form_actualizar_vehiculo mt-4">
+    <h2 class="mb-3">Ingresar los datos del vehículo:</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <a href="{% url 'listarVehiculos' %}" class="btn btn-secondary ms-2">Volver</a>
+    </form>
+</div>
+{% endblock %}

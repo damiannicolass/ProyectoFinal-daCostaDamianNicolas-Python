@@ -1,0 +1,25 @@
+{% extends 'appseguros/base.html' %}
+
+{% block titulo %} Crear Póliza {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg mb-5">
+                <div class="card-header bg-dark text-white">
+                    <h2 class="mb-0">Crear Póliza</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-dark btn-block">Guardar</button>
+                        <a href="{% url 'listarPolizas' %}" class="btn btn-secondary ms-2">Volver</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

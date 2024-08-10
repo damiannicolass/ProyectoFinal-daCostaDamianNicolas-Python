@@ -1,0 +1,50 @@
+{% extends 'appseguros/base.html' %}
+
+{% block titulo %} Lista Inspecciones {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container mt-4">
+    <h1 class="mb-4">Lista de Inspecciones</h1>
+    <div class="row">
+        {% for inspeccion in inspecciones %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">{{ inspeccion.dominio }}</h5>
+                    <!--Puede borrar una tarea solo usuarios autorizados-->
+                    {% if request.user.is_superuser %}
+                        <a href="{% url 'eliminar_inspeccion' inspeccion.pk %}" class="btn btn-close close text-end"></a>                            
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <p class="card-text"><strong>Asegurado:</strong> {{ inspeccion.asegurado }}</p>
+                    
+                    <!-- Indicador de fotos subidas -->
+                    <p class="card-text">
+                        <strong>Fotos Subidas:</strong>
+                        {% if inspeccion.fotos_subidas %}
+                            <span class="badge bg-success">Sí</span>
+                            <a href="{{ inspeccion.foto_frente }}" target="_blank" class="btn btn-dark btn-sm m-1">Foto Frente</a>
+                            <a href="{{ inspeccion.foto_trasera }}" target="_blank" class="btn btn-dark btn-sm m-1">Foto Trasera</a>
+                            <a href="{{ inspeccion.foto_lateral_derecho }}" target="_blank" class="btn btn-dark btn-sm m-1">Lateral Derecho</a>
+                            <a href="{{ inspeccion.foto_lateral_izquierdo }}" target="_blank" class="btn btn-dark btn-sm m-1">Lateral Izquierdo</a>
+                            <a href="{{ inspeccion.dni_frente }}" target="_blank" class="btn btn-dark btn-sm m-1">DNI Frente</a>
+                            <a href="{{ inspeccion.dni_dorso }}" target="_blank" class="btn btn-dark btn-sm m-1">DNI Dorso</a>
+                            <a href="{{ inspeccion.cedula_verde_frente }}" target="_blank" class="btn btn-dark btn-sm m-1">Cédula Verde Frente</a>
+                            <a href="{{ inspeccion.cedula_verde_dorso }}" target="_blank" class="btn btn-dark btn-sm m-1">Cédula Verde Dorso</a>
+                        {% else %}
+                            <span class="badge bg-danger">No</span>
+                        {% endif %}
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">No hay inspecciones registradas.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

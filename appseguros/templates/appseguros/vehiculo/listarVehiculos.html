@@ -1,0 +1,57 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Listar Vehículos {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container">
+    <div class="container tareas_pendientes m-3">
+        <h2> Vehículos </h2>
+        <a href="{% url 'crearVehiculo' %}" class="btn btn-dark">Crear vehículo</a>
+        <form method="GET" action="{% url 'listarVehiculos' %}">
+            <div class="input-group">
+                <input type="text" name="buscar" id="search-field" class="form-control" aria-label="Buscar vehículo" aria-describedby="inputGroup-sizing-default" placeholder="Buscar dominio" value="{{ request.GET.buscar }}">
+                <button class="btn btn-dark" type="submit">Buscar</button>
+                {% if request.GET.buscar %}
+                    <a href="{% url 'listarVehiculos' %}" class="btn btn-dark ms-2">Volver</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    <div class="border border border-secondary row m-1 p-2">
+        {% if vehiculos %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Dominio</th>
+                        <th>Marca/Versión</th>
+                        <th>Año</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehiculo in vehiculos %}
+                        <tr>
+                            <td>{{vehiculo.tipo}}</td>
+                            <td>{{ vehiculo.dominio }}</td>
+                            <td>{{vehiculo.marca}} - {{vehiculo.version}}</td>
+                            <td>{{ vehiculo.anio }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'detalleVehiculo' vehiculo.pk %}" class="btn btn-dark btn-sm">Ver</a>
+                                <a href="{% url 'actualizarVehiculo' vehiculo.pk %}" class="btn btn-dark btn-sm">Actualizar</a>
+                                {% if request.user.is_superuser %}
+                                <a href="{% url 'eliminarVehiculo' vehiculo.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay vehículos que coincidan con tu búsqueda.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

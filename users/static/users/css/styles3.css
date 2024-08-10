@@ -1,0 +1,20 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.426);
+    border-radius: 8px;
+    background-color: rgba(220, 224, 233, 0.8); /* Semi-transparente para resaltar el contenido */
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+}
+

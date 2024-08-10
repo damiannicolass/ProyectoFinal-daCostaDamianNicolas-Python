@@ -1,0 +1,38 @@
+{% extends 'appseguros/base.html' %}
+
+{% block titulo %} Detalle de Póliza {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container border m-5">
+    <h2>Detalle de Póliza</h2>
+    <dl class="row">
+        <dt class="col-sm-3">Número de Póliza:</dt>
+        <dd class="col-sm-9">{{ poliza.numero_poliza }}</dd>
+
+        <dt class="col-sm-3">Tipo de Seguro:</dt>
+        <dd class="col-sm-9">{{ poliza.get_tipo_seguro_display }}</dd>
+
+        <dt class="col-sm-3">Ramo (si aplica):</dt>
+        <dd class="col-sm-9">{{ poliza.ramo_otros }}</dd>
+
+        <dt class="col-sm-3">Asegurado:</dt>
+        <dd class="col-sm-9">{{ object.asegurado }}</dd>
+
+        <dt class="col-sm-3">Compañía:</dt>
+        <dd class="col-sm-9">{{ poliza.compania }}</dd>
+
+        <dt class="col-sm-3">Fecha de Inicio:</dt>
+        <dd class="col-sm-9">{{ poliza.fecha_inicio }}</dd>
+
+        <dt class="col-sm-3">Fecha de Finalización:</dt>
+        <dd class="col-sm-9">{{ poliza.fecha_finalizacion }}</dd>
+
+        <dt class="col-sm-3">Estado:</dt>
+        <dd class="col-sm-9">{{ poliza.estado_poliza }}</dd>
+
+        <dt class="col-sm-3">Información Adicional:</dt>
+        <dd class="col-sm-9">{{ poliza.informacion_adicional }}</dd>
+    </dl>
+    <a href="{% url 'listarPolizas' %}" class="btn btn-secondary">Volver</a>
+</div>
+{% endblock %}

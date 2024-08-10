@@ -1,0 +1,25 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Crear Siniestro {% endblock %}
+
+{% block contenidoQueCambia %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Crear Siniestro</h2>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-8">
+                    {{ form.as_p }}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-8">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <a href="{% url 'listarSiniestros' %}" class="btn btn-secondary ms-2">Volver</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

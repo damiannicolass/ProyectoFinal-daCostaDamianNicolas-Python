@@ -1,0 +1,46 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Detalle Tareas {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Título: {{ tarea.titulo }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Descripción: {{ tarea.subtitulo }}</h6>
+            <a href="{% url 'actualizarTarea' tarea.pk %}" class="btn btn-dark btn-sm">Modificar</a>
+            <hr>
+            <p class="card-text"><small class="text-muted">Creada el: {{ tarea.created_at|date:"d M Y H:i" }}</small></p>
+            <hr>
+            <!-- Comentarios -->
+            <h6 class="mt-4">Comentarios:</h6>
+            {% for comentario in tarea.comentarios.all %}
+                <div class="card mb-2">
+                    <div class="card-body d-flex justify-content-between">
+                        <div class="comment-text">
+                            <strong>{{ comentario.usuario.username }}:</strong> {{ comentario.texto }}
+                        </div>
+                        <div class="comment-date text-muted">
+                            {{ comentario.creado_en|date:"d M Y H:i" }}
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No hay comentarios aún.</p>
+            {% endfor %}
+            
+            <!-- Formulario para agregar un nuevo comentario -->
+            <h5 class="mt-4">Agregar Comentario:</h5>
+            <form method="POST" action="{% url 'detalleTarea' tarea.pk %}">
+                {% csrf_token %}
+                {{ formulario_comentario.as_p }}
+                <button type="submit" class="btn btn-dark mt-3">Agregar Comentario</button>
+            </form>
+            
+            <a href="{% url 'listarTareas' %}" class="btn btn-dark mt-3">Volver</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

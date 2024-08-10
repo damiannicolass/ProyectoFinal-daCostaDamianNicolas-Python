@@ -1,0 +1,83 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Listar Siniestros {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container">
+    <div class="container tareas_pendientes m-3">
+        <h2>Siniestros Pendientes: </h2>
+        <a href="{% url 'crearSiniestro' %}" class="btn btn-dark mb-3">Crear Siniestro</a>
+        <form method="GET" action="{% url 'listarSiniestros' %}" >
+            <div class="input-group mb-3">
+                <input type="text" name="buscar" id="search-field" class="form-control" aria-label="Buscar Siniestros" aria-describedby="inputGroup-sizing-default" placeholder="Buscar siniestros" value="{{ request.GET.buscar }}">
+                <button class="btn btn-dark" type="submit">Buscar</button>
+                {% if request.GET.buscar %}
+                    <a href="{% url 'listarSiniestros' %}" class="btn btn-secondary ms-2">Volver</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    {% if siniestros %}
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Número de Siniestro</th>
+                    <th>Asegurado</th>
+                    <th>Fecha de Creación</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for siniestro in siniestros %}
+                    <tr>
+                        <td>{{ siniestro.numero_siniestro }}</td>
+                        <td>{{ siniestro.asegurado }}</td>
+                        <td>{{ siniestro.created_at|date:"d M Y H:i" }}</td>
+                        <td>
+                            <!-- Formulario para cambiar el estado del siniestro -->
+                            <form action="{% url 'actualizar_estado_siniestro' siniestro.pk %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ siniestro.pk }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {% if siniestro.estado == 'activa' %}
+                                            Activa
+                                        {% else %}
+                                            Terminada
+                                        {% endif %}
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ siniestro.pk }}">
+                                        {% if siniestro.estado != 'activa' %}
+                                        <li>
+                                            <button class="dropdown-item" type="submit" name="estado" value="activa">Activa</button>
+                                        </li>
+                                        {% endif %}
+                                        {% if siniestro.estado != 'terminada' %}
+                                        <li>
+                                            <button class="dropdown-item" type="submit" name="estado" value="terminada">Terminada</button>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="{% url 'detalleSiniestro' siniestro.pk %}" class="btn btn-dark btn-sm">Ver</a>
+                            
+                            {% if request.user.is_superuser %}
+                                    <a href="{% url 'actualizarSiniestro' siniestro.pk %}" class="btn btn-dark btn-sm">Actualizar</a>
+                                    <a href="{% url 'eliminarSiniestro' siniestro.pk %}" class="btn btn-danger btn-sm">X<a>                            
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay siniestros que coincidan con tu búsqueda.</p>
+    {% endif %}
+</div>
+{% endblock %}

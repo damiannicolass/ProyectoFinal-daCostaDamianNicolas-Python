@@ -1,0 +1,23 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Enlace {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="mb-0">Inspección Creada</h1>
+        </div>
+        <div class="card-body">
+            <p class="card-text">El enlace para que el asegurado suba fotos es:</p>
+            <div class="mb-3">
+                <a href="{{ enlace }}">{{ enlace }}</a>
+            </div>
+            <p class="card-text">Copie y envíe el link al asegurado.</p>
+            <a href="{% url 'lista_inspecciones' %}" class="btn btn-dark btn-lg">Ir a Inspecciones</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

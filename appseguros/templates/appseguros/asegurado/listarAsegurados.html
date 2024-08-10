@@ -1,0 +1,71 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Listar Asegurados {% endblock %}
+
+{% block contenidoQueCambia %}
+<div class="container">
+    <div class="container tareas_pendientes m-3">
+        <h2> Asegurados </h2>
+        <a href="{% url 'crearAsegurado' %}" class="btn btn-dark">Crear Asegurado</a>
+        <form method="GET" action="{% url 'listarAsegurados' %}" >
+            <div class="input-group my-3">
+                <input type="text" name="buscar" id="search-field" class="form-control" aria-label="Buscar asegurado" aria-describedby="inputGroup-sizing-default" placeholder="Buscar asegurado" value="{{ request.GET.buscar }}">
+                <button class="btn btn-dark" type="submit">Buscar</button>
+                {% if request.GET.buscar %}
+                    <a href="{% url 'listarAsegurados' %}" class="btn btn-secondary ms-2">Volver</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    <div class="container row pt-3 border border-secondary m-1">
+        {% if asegurados %}
+            <table class="table table-striped table-hover" id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Telefono</th>
+                        <th>Mail</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asegurado in asegurados %}
+                        <tr>
+                            <td>{{ asegurado.nombre }}</td>
+                            <td>{{ asegurado.apellido }}</td>
+                            <td>{{ asegurado.telefono }}</td>
+                            <td>{{asegurado.mail}}</td>
+                            <td>
+                                <a href="{% url 'detalleAsegurado' asegurado.pk %}" class="btn btn-dark btn-sm">Ver</a>
+                                <a href="{% url 'actualizarAsegurado' asegurado.pk %}" class="btn btn-dark btn-sm">Actualizar</a>
+                                <!--Puede borrar una tarea solo usuarios autorizados-->
+                                {% if request.user.is_superuser %}
+                                    <a href="{% url 'eliminarAsegurado' asegurado.pk %}" class="btn btn-danger btn-sm">X</a>                            
+                                {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay asegurados que coincidan con tu búsqueda.</p>
+        {% endif %}
+    </div>
+</div>
+<!--<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        // Simple-DataTables
+        // https://github.com/fiduswriter/Simple-DataTables/wiki
+    
+        const datatablesSimple = document.getElementById('datatablesSimple');
+        if (datatablesSimple) {
+            new simpleDatatables.DataTable(datatablesSimple);
+        }
+    });
+    
+</script>-->
+{% endblock %}

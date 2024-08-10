@@ -1,0 +1,44 @@
+{% extends 'appseguros/base.html' %}
+
+{% load static %}
+
+{% block titulo %} Gestiones VyD | Inicio {% endblock %}
+
+{% block contenidoQueCambia %}
+<div>
+    
+</div>
+<div class="container mt-4">
+    <div class="row d-flex justify-content-center">
+        <!--Card de Tareas Pendientes-->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="my-0">Gestión de Tareas</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text lead">Actualmente tienes <strong class="text-success">{{ cantidad_tareas_pendientes }}</strong> tareas pendientes.</p>
+                    <a href="{% url 'listarTareas' %}" class="btn btn-outline-primary btn-lg mt-3">Ver todas las tareas</a>
+                </div>
+            </div>
+        </div>
+        <!--Card de Siniestro en tramite-->
+        <div class="col-md-4 mb-4">
+            <div class="card text-center shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="my-0">Siniestros</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text lead">Actualmente tienes <strong class="text-success">{{ cantidad_siniestros_pendientes }}</strong> siniestros en trámite.</p>
+                    <a href="{% url 'listarSiniestros' %}" class="btn btn-outline-primary btn-lg mt-3">Ver todos los siniestros</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container card p-3 shadow-lg companias">
+    <h5 class="text-center">Links a compañias</h5>
+    <p class="text-center">(en construccion)</p>
+</div>
+
+{% endblock %}
