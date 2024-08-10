@@ -36,7 +36,7 @@ Consultar IP Local en el cmd : ipconfig
 Solamente usuarios autorizados pueden tener acceso a eliminar registros y actualizar modelos puntuales.
 
 Video demostracion:
-....
+https://www.youtube.com/watch?v=rDbhgWSCSMI
 
 Damian Nicolas da Costa.
 Linkedin: https://www.linkedin.com/in/damian-nicolas-da-costa/
